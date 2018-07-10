@@ -1,16 +1,18 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Ариша
-  Date: 10.07.2018
-  Time: 19:24
-  To change this template use File | Settings | File Templates.
---%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>$Title$</title>
+    <title>Hello</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
 </head>
 <body>
-$END$
+<section>
+    <div class="jumbotron">
+        <div class="container">
+            <h1>${greeting}</h1>
+            <p>${tagline}</p>
+        </div>
+    </div>
+</section>
 </body>
 </html>
