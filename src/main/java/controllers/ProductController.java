@@ -3,9 +3,10 @@ package controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import repository.ProductRepository;
+import service.ProductService;
 import service.UpdateService;
 
 /**
@@ -13,7 +14,7 @@ import service.UpdateService;
  * @author vrnsky.
  * @version 0.1.
  */
-@Controller
+@Controller @RequestMapping("/market")
 public class ProductController {
 
 
@@ -21,7 +22,7 @@ public class ProductController {
      * Repository of products.
      */
     @Autowired
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     /**
      * Service for update some details of product.
@@ -36,7 +37,7 @@ public class ProductController {
      */
     @RequestMapping(value = "/products", method = RequestMethod.GET)
     public String list(Model model) {
-        model.addAttribute("products", this.productRepository.getAllProducts());
+        model.addAttribute("products", this.productService.getAllProducts());
         return "products";
     }
 
@@ -47,6 +48,18 @@ public class ProductController {
     @RequestMapping(value = "/update/stocks", method = RequestMethod.GET)
     public String updateStocks() {
         updateService.updateAllStocks();
-        return "redirect:/products";
+        return "redirect:/market/products";
+    }
+
+    /**
+     * Getting products by category.
+     * @param category string view of category.
+     * @param model object of spring mvc.
+     * @return show user all products which have given category
+     */
+    @RequestMapping(value = "/products/{category}", method = RequestMethod.GET)
+    public String getProductsByCategory(@PathVariable String category, Model model) {
+        model.addAttribute("products", this.productService.getProductsByCategory(category));
+        return "products";
     }
 }
