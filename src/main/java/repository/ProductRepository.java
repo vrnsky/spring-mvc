@@ -24,4 +24,7 @@ public interface ProductRepository {
      * @param count how many we add.
      */
     void updateStock(String productId, long count);
+
+
+    List<Product> getProductsByCategory(String category);
 }

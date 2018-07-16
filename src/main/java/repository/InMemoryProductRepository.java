@@ -50,6 +50,18 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     /**
+     * Getting products from database which category is equals to given category.
+     * @param category string object which describe category.
+     * @return list of product which have given directory.
+     */
+    @Override
+    public List<Product> getProductsByCategory(String category) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("category", category);
+        return jdbcTemplate.query("SELECT * FROM products WHERE category = :category", params, new ProductMapper());
+    }
+
+    /**
      * Class which allow to map result set to the domain object.
      */
     private static final class ProductMapper implements RowMapper<Product> {
