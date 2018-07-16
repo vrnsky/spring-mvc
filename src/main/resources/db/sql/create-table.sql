@@ -12,3 +12,10 @@ units_in_stock bigint,
 units_in_order bigint,
 discounted boolean
 );
+
+create table customers (
+id varchar(25) primary key,
+name varchar(100),
+address varchar(1000),
+makesOrder integer
+);
