@@ -3,10 +3,7 @@ package controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.MatrixVariable;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import service.ProductService;
 import service.UpdateService;
 
@@ -74,13 +71,20 @@ public class ProductController {
 
     /**
      * Get products by some parameters
+     *
      * @param filterParams all paramaters and its values.
-     * @param model spring object.
+     * @param model        spring object.
      * @return user to the products page which related to the given directory.
      */
     @RequestMapping(value = "/products/filter/{params}", method = RequestMethod.GET)
     public String getProductsByFilter(@MatrixVariable(pathVar = "params") Map<String, List<String>> filterParams, Model model) {
         model.addAttribute("products", this.productService.getProductsByParams(filterParams));
         return "products";
+    }
+
+    @RequestMapping(value = "/product", method = RequestMethod.GET)
+    public String getProductById(@RequestParam("id") String productId, Model model) {
+        model.addAttribute("product", this.productService.getProductById(productId));
+        return "product";
     }
 }

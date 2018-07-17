@@ -30,4 +30,6 @@ public interface ProductService {
      * @return list of products which have required characterict.
      */
     List<Product> getProductsByParams(Map<String, List<String>> params);
+
+    Product getProductById(String id);
 }

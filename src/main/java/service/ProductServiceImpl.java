@@ -53,4 +53,10 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> getProductsByParams(Map<String, List<String>> params) {
         return this.productRepo.getProductsByFilters(params);
     }
+
+
+    @Override
+    public Product getProductById(String id) {
+        return this.productRepo.getProductById(id);
+    }
 }

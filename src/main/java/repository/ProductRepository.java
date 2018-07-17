@@ -39,4 +39,7 @@ public interface ProductRepository {
      * @return list of all products which related to the give paramter.
      */
     List<Product> getProductsByFilters(Map<String, List<String>> params);
+
+
+    Product getProductById(String id);
 }

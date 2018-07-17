@@ -73,6 +73,13 @@ public class InMemoryProductRepository implements ProductRepository {
         return jdbcTemplate.query(SQL, params, new ProductMapper());
     }
 
+    @Override
+    public Product getProductById(String id) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", id);
+        return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = :id", params, new ProductMapper());
+    }
+
     /**
      * Class which allow to map result set to the domain object.
      */
