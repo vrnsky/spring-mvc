@@ -61,6 +61,18 @@ public class InMemoryProductRepository implements ProductRepository {
         return jdbcTemplate.query("SELECT * FROM products WHERE category = :category", params, new ProductMapper());
     }
 
+
+    /**
+     * Return a product which have required category and brand.
+     * @param params list of categories and brands.
+     * @return list of product which related to the required category and brand.
+     */
+    @Override
+    public List<Product> getProductsByFilters(Map<String, List<String>> params) {
+        String SQL = "SELECT * FROM products where category in ( :categories) and manufacturer in ( :brands)";
+        return jdbcTemplate.query(SQL, params, new ProductMapper());
+    }
+
     /**
      * Class which allow to map result set to the domain object.
      */

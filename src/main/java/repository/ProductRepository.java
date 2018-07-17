@@ -4,6 +4,7 @@ package repository;
 import domain.Product;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Repository interface for all entites.
@@ -26,5 +27,16 @@ public interface ProductRepository {
     void updateStock(String productId, long count);
 
 
+    /**
+     * Return products by category.
+     * @param category string view of category.
+     * @return list of products which related to the given directory.
+     */
     List<Product> getProductsByCategory(String category);
+
+    /**
+     * Load products by some parameters and return it.
+     * @return list of all products which related to the give paramter.
+     */
+    List<Product> getProductsByFilters(Map<String, List<String>> params);
 }

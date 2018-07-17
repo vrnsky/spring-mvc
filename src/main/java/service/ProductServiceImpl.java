@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import repository.ProductRepository;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -41,5 +42,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Product> getProductsByCategory(String category) {
         return this.productRepo.getProductsByCategory(category);
+    }
+
+    /**
+     * Extract from the repository products which have related to the given param.
+     * @param params list of categories and brands.
+     * @return list of products which related to the given params.
+     */
+    @Override
+    public List<Product> getProductsByParams(Map<String, List<String>> params) {
+        return this.productRepo.getProductsByFilters(params);
     }
 }
