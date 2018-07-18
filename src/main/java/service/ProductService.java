@@ -31,5 +31,18 @@ public interface ProductService {
      */
     List<Product> getProductsByParams(Map<String, List<String>> params);
 
+    /**
+     * Return a product with given id or null.
+     * @param id unique per each product string.
+     * @return product instance or null.
+     */
     Product getProductById(String id);
+
+    /**
+     * Add new product to the system.
+     * @param product instance of the product class.
+     */
+    void addProduct(Product product);
+
+
 }

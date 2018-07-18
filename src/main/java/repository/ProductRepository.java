@@ -40,6 +40,16 @@ public interface ProductRepository {
      */
     List<Product> getProductsByFilters(Map<String, List<String>> params);
 
-
+    /**
+     * Return product with given id.
+     * @param id unique per each product string.
+     * @return product from the database.
+     */
     Product getProductById(String id);
+
+    /**
+     * Adding new product to the system.
+     * @param product instance of the product class.
+     */
+    void addProduct(Product product);
 }

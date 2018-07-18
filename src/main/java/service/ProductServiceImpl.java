@@ -54,9 +54,22 @@ public class ProductServiceImpl implements ProductService {
         return this.productRepo.getProductsByFilters(params);
     }
 
-
+    /**
+     * Return a product from the database.
+     * @param id unique per each product string.
+     * @return instance of the product.
+     */
     @Override
     public Product getProductById(String id) {
         return this.productRepo.getProductById(id);
+    }
+
+    /**
+     * Adding a new product to the system.
+     * @param product instance of the product class.
+     */
+    @Override
+    public void addProduct(Product product) {
+        this.productRepo.addProduct(product);
     }
 }

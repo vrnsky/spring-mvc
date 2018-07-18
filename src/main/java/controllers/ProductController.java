@@ -1,5 +1,6 @@
 package controllers;
 
+import domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,5 +87,28 @@ public class ProductController {
     public String getProductById(@RequestParam("id") String productId, Model model) {
         model.addAttribute("product", this.productService.getProductById(productId));
         return "product";
+    }
+
+    /**
+     * Return to the client page which allow to add a new product to the shop.
+     * @param model instance of spring mvc.
+     * @return user to the addproduct view.
+     */
+    @RequestMapping(value = "/products/add", method = RequestMethod.GET)
+    public String getAddNewProductFrom(Model model) {
+        Product newProduct = new Product();
+        model.addAttribute("product", newProduct);
+        return "addproduct";
+    }
+
+    /**
+     * Add new product to the system.
+     * @param newProduct instance of the new product.
+     * @return user to the main page of products.
+     */
+    @RequestMapping(value = "/products/add", method = RequestMethod.POST)
+    public String processAddNewProductForm(@ModelAttribute("product") Product newProduct) {
+        productService.addProduct(newProduct);
+        return "redirect:/market/products";
     }
 }

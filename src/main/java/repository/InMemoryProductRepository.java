@@ -73,12 +73,40 @@ public class InMemoryProductRepository implements ProductRepository {
         return jdbcTemplate.query(SQL, params, new ProductMapper());
     }
 
+    /**
+     * Return product which given related id.
+     * @param id unique per each produt string.
+     * @return instance of product from the database.
+     */
     @Override
     public Product getProductById(String id) {
         Map<String, Object> params = new HashMap<>();
         params.put("id", id);
         return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = :id", params, new ProductMapper());
     }
+
+    /**
+     * Adding new product to the system.
+     * @param product instance of product class.
+     */
+    @Override
+    public void addProduct(Product product) {
+        String SQL = "INSERT INTO products (id, name, description, unit_price, manufacturer, category, condition, units_in_stock, units_in_order, discounted)" +
+                " values (:id, :name, :description, :unit_price, :manufacturer, :category, :condition, :units_in_stock, :units_in_order, :discounted)";
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", product.getProductId());
+        params.put("name", product.getName());
+        params.put("category", product.getCategory());
+        params.put("description", product.getDescription());
+        params.put("unit_price", product.getUnitPrice());
+        params.put("manufacturer", product.getManufacturer());
+        params.put("condition", product.getCondition());
+        params.put("units_in_stock", product.getUnitsInStock());
+        params.put("units_in_order", product.getUnitsInOrder());
+        params.put("discounted", product.isDiscounted());
+        this.jdbcTemplate.update(SQL, params);
+    }
+
 
     /**
      * Class which allow to map result set to the domain object.
