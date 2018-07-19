@@ -19,4 +19,9 @@ public class CustomerServiceImpl implements CustomerService {
     public List<Customer> getAllCustomers() {
         return this.customerRepo.getAllCustomers();
     }
+
+    @Override
+    public void addCustomer(Customer customer) {
+        this.customerRepo.addCustomer(customer);
+    }
 }

@@ -16,4 +16,6 @@ public interface CustomerRepository {
      * @return list of all customers.
      */
     List<Customer> getAllCustomers();
+
+    void addCustomer(Customer customer);
 }

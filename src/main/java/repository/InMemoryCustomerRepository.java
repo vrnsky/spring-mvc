@@ -40,10 +40,11 @@ public class InMemoryCustomerRepository implements CustomerRepository {
      */
     public void addCustomer(Customer customer) {
         Map<String, Object> param = new HashMap<>();
+        param.put("id", customer.getId());
         param.put("name", customer.getName());
         param.put("address", customer.getAddress());
-        param.put("count", 0);
-        jdbcTemplate.update("INSERT INTO customers (name, address, makesOrder) values (:name, :address, :count)", param);
+        param.put("count", customer.getOrderMakes());
+        jdbcTemplate.update("INSERT INTO customers (id, name, address, makesOrder) values (:id, :name, :address, :count)", param);
     }
 
     /**
@@ -53,6 +54,7 @@ public class InMemoryCustomerRepository implements CustomerRepository {
     public List<Customer> getAllCustomers() {
        return jdbcTemplate.query("SELECT * FROM customers", new CustomerMapper());
     }
+
 
     /**
      * Class for mapping customer.

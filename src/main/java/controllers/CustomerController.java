@@ -1,8 +1,10 @@
 package controllers;
 
+import domain.Customer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import service.CustomerService;
@@ -38,5 +40,23 @@ public class CustomerController {
     public String showAllCustomers(Model model) {
         model.addAttribute("customers", this.customerService.getAllCustomers());
         return "customers";
+    }
+
+    /**
+     * Show user page with form to add a new customer.
+     * @param model instance of spring mvc object.
+     * @return string represent view add customer.
+     */
+    @RequestMapping(value = "/customers/add", method = RequestMethod.GET)
+    public String getRegisterPage(Model model) {
+        Customer customer = new Customer();
+        model.addAttribute("customer", customer);
+        return "addcustomer";
+    }
+
+    @RequestMapping(value = "/customers/add", method = RequestMethod.POST)
+    public String processRegisterPage(@ModelAttribute Customer customer) {
+        this.customerService.addCustomer(customer);
+        return "redirect:/customers";
     }
 }
