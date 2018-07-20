@@ -4,10 +4,17 @@ import domain.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import service.ProductService;
 import service.UpdateService;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -107,8 +114,36 @@ public class ProductController {
      * @return user to the main page of products.
      */
     @RequestMapping(value = "/products/add", method = RequestMethod.POST)
-    public String processAddNewProductForm(@ModelAttribute("product") Product newProduct) {
+    public String processAddNewProductForm(@ModelAttribute("product") Product newProduct, BindingResult result, HttpServletRequest request) {
+        String[] suppresedFields = result.getSuppressedFields();
+        if (suppresedFields.length > 0) {
+            throw new RuntimeException("Attempting to disallowed fields "  + StringUtils.arrayToCommaDelimitedString(suppresedFields));
+        }
+        MultipartFile image = newProduct.getImage();
+        String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+        if (image != null && !image.isEmpty()) {
+            try {
+                image.transferTo(new File(rootDirectory + "\\resources\\images\\" + newProduct.getProductId() + ".jpg"));
+            } catch (IOException ioex) {
+                throw new RuntimeException("Image loading failed", ioex);
+            }
+        }
         productService.addProduct(newProduct);
         return "redirect:/market/products";
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.setAllowedFields(
+                "productId",
+                "name",
+                "description",
+                "unitPrice",
+                "category",
+                "manufacturer",
+                "unitsInStock",
+                "condition",
+                "image"
+        );
     }
 }

@@ -2,6 +2,8 @@ package domain;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -62,6 +64,12 @@ public class Product {
      * Condition of the product - new or refurbished.
      */
     private String condition;
+
+
+    /**
+     * Image of the product.
+     */
+    private MultipartFile image;
 
     /**
      * Create a new product with given id and name, price.
