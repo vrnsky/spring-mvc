@@ -71,6 +71,12 @@ public class Product {
      */
     private MultipartFile image;
 
+
+    /**
+     * Manual for product.
+     */
+    private MultipartFile manual;
+
     /**
      * Create a new product with given id and name, price.
      * @param productId unique per products number.
