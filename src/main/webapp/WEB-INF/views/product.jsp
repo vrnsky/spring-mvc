@@ -49,6 +49,9 @@
                         <a href="<spring:url value="/market/products" />" class="btn btn-default">
                             <span class="glyphicon-hand-left glyphicon"></span>Back
                         </a>
+                        <a href="<c:url value="/manuals/${product.productId}.pdf"></c:url>">
+                            <span class="glyphicon glyphicon-book"></span>Manual
+                        </a>
                     </p>
                 </div>
         </div>
