@@ -1,5 +1,6 @@
 package config;
 
+import domain.Product;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,8 +9,16 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-
+import org.springframework.oxm.jaxb.Jaxb2Marshaller;
+import org.springframework.web.accept.ContentNegotiationManager;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.servlet.view.xml.MarshallingView;
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Create embedded database beans and init named jdbc template for spring.
@@ -41,12 +50,43 @@ public class RootApplicationContextConfig {
         return new NamedParameterJdbcTemplate(dataSource());
     }
 
+    /**
+     * Automate generate label for views.
+     * @return source of messages.
+     */
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
         messageSource.setBasename("messages");
         return messageSource;
     }
+
+    @Bean
+    public MappingJackson2JsonView jsonView() {
+        MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
+        jsonView.setPrettyPrint(true);
+        return jsonView;
+    }
+
+    @Bean
+    public MarshallingView xmlView() {
+        Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
+        marshaller.setClassesToBeBound(Product.class);
+        return new MarshallingView(marshaller);
+    }
+
+    @Bean
+    public ViewResolver contentNegotianResolver(ContentNegotiationManager manager) {
+        ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();
+        resolver.setContentNegotiationManager(manager);
+        List<View> views = new ArrayList<>();
+        views.add(jsonView());
+        views.add(xmlView());
+        resolver.setDefaultViews(views);
+        return resolver;
+    }
+
+
 
 
 }

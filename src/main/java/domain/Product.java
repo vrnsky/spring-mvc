@@ -1,9 +1,12 @@
 package domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import java.math.BigDecimal;
 import java.util.Objects;
 
@@ -13,6 +16,7 @@ import java.util.Objects;
  * @version 0.1.
  */
 @Data @NoArgsConstructor
+@XmlRootElement
 public class Product {
 
     /**
@@ -69,12 +73,16 @@ public class Product {
     /**
      * Image of the product.
      */
+    @XmlTransient
+    @JsonIgnore
     private MultipartFile image;
 
 
     /**
      * Manual for product.
      */
+    @XmlTransient
+    @JsonIgnore
     private MultipartFile manual;
 
     /**
@@ -109,5 +117,15 @@ public class Product {
     @Override
     public int hashCode() {
         return Objects.hash(getProductId());
+    }
+
+    @XmlTransient @JsonIgnore
+    public MultipartFile getImage() {
+        return this.image;
+    }
+
+    @XmlTransient @JsonIgnore
+    public MultipartFile getManual() {
+        return this.manual;
     }
 }
