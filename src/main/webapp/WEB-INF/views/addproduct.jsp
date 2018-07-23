@@ -66,6 +66,10 @@
                         <form:input path="image" type="file" class="form-control" id="productImage" name="productImage"/>
                     </div>
                     <div class="form-group">
+                        <label for="productManual"><spring:message code="addProduct.form.productManual.label" /></label>
+                        <form:input path="manual" type="file" id="productManual" name="productManual" class="form-control" />
+                    </div>
+                    <div class="form-group">
                         <input type="submit" class="btn btn-default btn-primary" value="Add new product"/>
                     </div>
                 </fieldset>
