@@ -120,18 +120,24 @@ public class ProductController {
             throw new RuntimeException("Attempting to disallowed fields "  + StringUtils.arrayToCommaDelimitedString(suppresedFields));
         }
         MultipartFile image = newProduct.getImage();
+        MultipartFile manual = newProduct.getManual();
         String rootDirectory = request.getSession().getServletContext().getRealPath("/");
         if (image != null && !image.isEmpty()) {
             try {
                 image.transferTo(new File(rootDirectory + "\\resources\\images\\" + newProduct.getProductId() + ".jpg"));
+                manual.transferTo(new File(rootDirectory + "\\resources\\manuals\\" + newProduct.getProductId() + ".pdf"));
             } catch (IOException ioex) {
                 throw new RuntimeException("Image loading failed", ioex);
             }
         }
-        productService.addProduct(newProduct);
+        this.productService.addProduct(newProduct);
         return "redirect:/market/products";
     }
 
+    /**
+     * White list for product mapping.
+     * @param binder instance of binder for configure.
+     */
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         binder.setAllowedFields(
@@ -143,7 +149,9 @@ public class ProductController {
                 "manufacturer",
                 "unitsInStock",
                 "condition",
-                "image"
+                "image",
+                "manual"
         );
     }
+
 }
