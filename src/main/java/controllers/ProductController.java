@@ -2,6 +2,7 @@ package controllers;
 
 import domain.Product;
 import exceptions.NoProductsFoundUnderCategoryException;
+import exceptions.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import service.ProductService;
 import service.UpdateService;
 
@@ -157,6 +159,17 @@ public class ProductController {
                 "image",
                 "manual"
         );
+    }
+
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ModelAndView handleError(HttpServletRequest request, ProductNotFoundException productException) {
+        ModelAndView modelView = new ModelAndView();
+        modelView.addObject("invalidProduct", productException.getId());
+        modelView.addObject("exception", productException);
+        modelView.addObject("url", request.getRequestURL() + "?" + request.getQueryString());
+        modelView.setViewName("productNotFound");
+        return modelView;
     }
 
 }
