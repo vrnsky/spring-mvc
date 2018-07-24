@@ -61,6 +61,10 @@ public class RootApplicationContextConfig {
         return messageSource;
     }
 
+    /**
+     * Generate a bean which allow to represent an product as json sequence.
+     * @return beans which allow generate json for product.
+     */
     @Bean
     public MappingJackson2JsonView jsonView() {
         MappingJackson2JsonView jsonView = new MappingJackson2JsonView();
@@ -68,6 +72,10 @@ public class RootApplicationContextConfig {
         return jsonView;
     }
 
+    /**
+     * Generate a bean which allow to represent and product as xml tree.
+     * @return bean which allow to generate xml tree for product.
+     */
     @Bean
     public MarshallingView xmlView() {
         Jaxb2Marshaller marshaller = new Jaxb2Marshaller();
@@ -75,6 +83,11 @@ public class RootApplicationContextConfig {
         return new MarshallingView(marshaller);
     }
 
+    /**
+     * Content negotiating manager which resolve how of view show to user.
+     * @param manager of view.
+     * @return configured resolver.
+     */
     @Bean
     public ViewResolver contentNegotianResolver(ContentNegotiationManager manager) {
         ContentNegotiatingViewResolver resolver = new ContentNegotiatingViewResolver();

@@ -1,6 +1,7 @@
 package controllers;
 
 import domain.Product;
+import exceptions.NoProductsFoundUnderCategoryException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -73,7 +74,11 @@ public class ProductController {
      */
     @RequestMapping(value = "/products/{category}", method = RequestMethod.GET)
     public String getProductsByCategory(@PathVariable String category, Model model) {
-        model.addAttribute("products", this.productService.getProductsByCategory(category));
+        List<Product> products = this.productService.getProductsByCategory(category);
+        if (products == null || products.isEmpty()) {
+            throw new NoProductsFoundUnderCategoryException();
+        }
+        model.addAttribute("products", products);
         return "products";
     }
 
