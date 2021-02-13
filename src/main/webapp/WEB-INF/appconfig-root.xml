@@ -7,11 +7,8 @@
 
     <import resource="appconfig-mvc.xml"/>
 
-    <context:component-scan base-package="config"/>
-    <context:component-scan base-package="controllers"/>
-    <context:component-scan base-package="repository"/>
-    <context:component-scan base-package="service" />
+    <context:component-scan base-package="org.skillfactory"/>
     <context:property-placeholder location="classpath:application.properties"/>
-    <mvc:annotation-driven enable-matrix-variables="true"/>
+    <mvc:annotation-driven/>
 
 </beans>
